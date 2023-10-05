@@ -6,10 +6,16 @@ import './App.css';
 import data from './dummy/Data';
 
 // 컴포넌트
+import Card from './Component/Card';
+import Detail from './Component/Detail';
+import About from './Component/About';
+import Event from './Component/Event';
 
 // etc.
 import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom'
+
+// router
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
 
 
@@ -33,6 +39,7 @@ function App() {
 
       {/* 라우터 */}
           <Routes>
+            {/* 메인 페이지 */}
             <Route path="/" element={ 
               <div>
                 <div className='main-bg'></div>
@@ -48,23 +55,39 @@ function App() {
                 </div>
               </div>
             } />
-            <Route path="/detail" element={ <div>상세페이지임</div> } />
-            <Route path="/about" element={ <div>어바웃페이지임</div> } />
+
+            {/* 세부사항 페이지 */}
+            <Route path="/detail/:id" element={ <Detail shoes={shoes}/> } />
+            
+            {/* About 페이지 */}
+            <Route  path="/about" element={ <About></About> }>
+              <Route path="member" element={ <div>멤버들...</div> }/>
+              <Route path="location" element={ <div>회사들...</div> }/>
+            </Route>
+
+            {/* Event 페이지 */}
+            <Route path='/event' element={<Event/>}>
+              <Route path='one' element={ <div>첫 주문시 양배추즙 서비스</div>}/>
+              <Route path='two' element={<div>생일기념 쿠폰받기</div>}/>
+            </Route>
+
+            {/* 없는 페이지 */}
+            <Route path="*" element={ <div>없는 페이지임</div> } />
           </Routes>
 
     </div>
   );
 }
 
-function Card(props) {
-  return (
-    <div className="col-md-4">
-      <img src={`https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`} width="80%" />
-      <h4>{props.shoes.title}</h4>
-      <p>{props.shoes.price}</p>
-    </div>
-  )
-}
+// function Card(props) {
+//   return (
+//     <div className="col-md-4">
+//       <img src={`https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`} width="80%" />
+//       <h4>{props.shoes.title}</h4>
+//       <p>{props.shoes.price}</p>
+//     </div>
+//   )
+// }
 
 
 export default App;
