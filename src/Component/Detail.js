@@ -1,28 +1,44 @@
+// 파라미터 사용
 import { Link, useParams } from "react-router-dom";
+// css
 import styled from 'styled-components'
+// LifeCycle
+import { useState, useEffect } from "react";
 
-let Box = styled.div`
-    padding : 20px;
-    color : grey
-`;
-let YellowBtn = styled.button`
-    background : yellow;
-    width : 120px;
-    color : black;
-    padding : 10px;
-`;
+    let Box = styled.div`
+        padding : 20px;
+        color : grey
+    `;
+    let YellowBtn = styled.button`
+        background : yellow;
+        width : 120px;
+        color : black;
+        padding : 10px;
+    `;
+    let YellowBox = styled.div`
+        padding : 20px;
+        color : yellow;
+        display : true;
+    `;
 
-function Detail(props) {
-    let {id} = useParams();
-    let found = props.shoes.find(function(x){
-        return x.id == id
-    });
+    function Detail(props) {
+
+        useEffect(()=>{
+            setTimeout(()=>{})
+            console.log('안녕');
+        });
+
+        let {id} = useParams();
+        let found = props.shoes.find(function(x){
+            return x.id == id
+        });
 
     // 디버깅용
     console.log(id);
     return(
 
         <div>
+            <YellowBox>아하</YellowBox>
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
