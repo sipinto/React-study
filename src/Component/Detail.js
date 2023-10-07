@@ -9,6 +9,11 @@ import { useState, useEffect, useContext } from "react";
 import TabBox from './TabBox.js';
 
 import {Context1} from './../App.js';
+import { addItem } from "../store.js";
+import { useDispatch } from "react-redux";
+
+
+
 
     let Box = styled.div`
         padding : 20px;
@@ -37,6 +42,7 @@ import {Context1} from './../App.js';
         let [alert1, setAlert1] = useState(true);
         let [inputValue, setInputValue] = useState('');
         let [tab, setTab] = useState(0);
+        let dispatch = useDispatch();
 
         useEffect(()=>{ 
             let a = setTimeout(()=>{ setAlert1(false) }, 2000)
@@ -94,7 +100,9 @@ import {Context1} from './../App.js';
                                 <p>{found.content}</p>
                             </Box>
                             <p>{found.price}원</p>
-                            <button className="btn btn-danger">주문하기</button> 
+                            <button className="btn btn-danger" onClick={()=>{
+                                dispatch(addItem({id: 1, name : 'Red knit', count : 1}))
+                            }}>주문하기</button> 
                         </div>
                     </div>
                     <Nav variant="tabs"  defaultActiveKey="link0">
