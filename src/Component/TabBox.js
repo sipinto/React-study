@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 // LifeCycle
 import { useState, useEffect, useCallback, useContext } from "react";
 import { Context1 } from "../App";

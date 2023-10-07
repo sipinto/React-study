@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 // css
 import {Navbar, Container, Nav } from 'react-bootstrap'
 import './App.css';
@@ -10,6 +12,7 @@ import Card from './Component/Card';
 import Detail from './Component/Detail';
 import About from './Component/About';
 import Event from './Component/Event';
+import Cart from './Component/Cart';
 
 // etc.
 import { createContext, useState } from 'react';
@@ -100,6 +103,11 @@ function App() {
             <Route path='/event' element={<Event/>}>
               <Route path='one' element={ <div>첫 주문시 양배추즙 서비스</div>}/>
               <Route path='two' element={<div>생일기념 쿠폰받기</div>}/>
+            </Route>
+
+            {/* 장바구니 페이지 */}
+            <Route path="/cart"  element={ <Cart/>}>
+
             </Route>
 
             {/* 없는 페이지 */}
