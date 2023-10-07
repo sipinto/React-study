@@ -1,5 +1,5 @@
 // 파라미터 사용
-import { Link, useParams } from "react-router-dom";
+import { Link, json, useParams } from "react-router-dom";
 // css
 import styled from 'styled-components'
 import { Nav, Tab } from "react-bootstrap";
@@ -63,6 +63,17 @@ import { useDispatch } from "react-redux";
               setFade2('')
             }
           },[])
+
+        useEffect(()=>{
+
+            let output = localStorage.getItem('watched')
+            output = JSON.parse(output)
+            output.push(found.id)
+            output = new Set(output)
+            output = Array.from(output)
+            localStorage.setItem('watched',JSON.stringify(output))
+        
+        },[])
         
 
         let {id} = useParams();
