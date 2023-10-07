@@ -4,9 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import styled from 'styled-components'
 import { Nav, Tab } from "react-bootstrap";
 // LifeCycle
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 // Component
 import TabBox from './TabBox.js';
+
+import {Context1} from './../App.js';
 
     let Box = styled.div`
         padding : 20px;
@@ -27,6 +29,7 @@ import TabBox from './TabBox.js';
     `;
 
     function Detail(props) {
+        let {재고, shoes} = useContext(Context1);
 
         let [fade2, setFade2] = useState('')
 

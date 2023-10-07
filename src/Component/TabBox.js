@@ -1,9 +1,11 @@
 // LifeCycle
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
+import { Context1 } from "../App";
 
 function TabBox({tab}) {
 
     let [fade, setFade] = useState('');
+    let {재고} = useContext(Context1);
     
     useEffect(()=>{
         setTimeout(()=>{ setFade('end') }, 100)

@@ -12,7 +12,7 @@ import About from './Component/About';
 import Event from './Component/Event';
 
 // etc.
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 
 // router
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
@@ -20,9 +20,11 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 // axios
 import axios from 'axios';
 
+export let Context1 = createContext();
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [재고, 재고없음] = useState([10,11,12]);
 
   return (
     <div className="App">
@@ -82,7 +84,11 @@ function App() {
             } />
 
             {/* 세부사항 페이지 */}
-            <Route path="/detail/:id" element={ <Detail shoes={shoes}/> } />
+            <Route path="/detail/:id" element={ 
+              <Context1.Provider value={{재고, shoes}}>
+                <Detail shoes={shoes}/> 
+              </Context1.Provider>
+            } />
             
             {/* About 페이지 */}
             <Route  path="/about" element={ <About></About> }>
@@ -103,16 +109,6 @@ function App() {
     </div>
   );
 }
-
-// function Card(props) {
-//   return (
-//     <div className="col-md-4">
-//       <img src={`https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`} width="80%" />
-//       <h4>{props.shoes.title}</h4>
-//       <p>{props.shoes.price}</p>
-//     </div>
-//   )
-// }
 
 
 export default App;
