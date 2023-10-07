@@ -17,10 +17,12 @@ import { useState } from 'react';
 // router
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
+// axios
+import axios from 'axios';
 
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
 
   return (
     <div className="App">
@@ -53,6 +55,20 @@ function App() {
                         }
                       </div>
                 </div>
+                <button onClick={()=>{
+                  axios.get('https://codingapple1.github.io/shop/data2.json')
+                  .then((result)=>{ 
+                    console.log(result.data); 
+                    let copy = [...shoes];
+                    let combi = copy.concat(result.data);
+                    // copy.unshift(result.data);
+                    console.log(combi);
+                    setShoes(combi);
+                  })
+                  .catch(()=>{
+                    console.log('실패했음 ㅅㄱ')
+                  });
+                }}>버튼</button>
               </div>
             } />
 
