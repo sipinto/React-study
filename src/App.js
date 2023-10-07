@@ -15,7 +15,7 @@ import Event from './Component/Event';
 import Cart from './Component/Cart';
 
 // etc.
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 // router
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
@@ -26,8 +26,19 @@ import axios from 'axios';
 export let Context1 = createContext();
 
 function App() {
+  let obj = {name : 'kim'}
+  localStorage.setItem('data', JSON.stringify(obj))
+  let output = localStorage.getItem('data')
+
+  console.log(JSON.parse(output).name)
+
   let [shoes, setShoes] = useState(data);
   let [재고, 재고없음] = useState([10,11,12]);
+  let navigate = useNavigate();
+
+  useEffect(()=>{
+    localStorage.setItem('watched', JSON.stringify([]))
+  },[])
 
   return (
     <div className="App">
