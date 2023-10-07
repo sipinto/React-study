@@ -28,6 +28,7 @@ import TabBox from './TabBox.js';
 
     function Detail(props) {
 
+        let [fade2, setFade2] = useState('')
 
         // let [count, setCount] = useState(0);
         let [alert1, setAlert1] = useState(true);
@@ -46,6 +47,14 @@ import TabBox from './TabBox.js';
                 alert('그러지 마세요 크흠')
             }
         }, [inputValue])
+        
+        useEffect(()=>{
+            setFade2('end')
+            return ()=>{
+              setFade2('')
+            }
+          },[])
+        
 
         let {id} = useParams();
         let found = props.shoes.find(function(x){
@@ -55,54 +64,57 @@ import TabBox from './TabBox.js';
     // 디버깅용
     console.log(id);
     return(
-        
-        <div>
-            {
-                alert1 == true ? 
-                <div className="alert alert-warning">
-                    2초 이내 구매 시 할인 
-                </div> 
-                : null
-            }
-            
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <img src={`https://codingapple1.github.io/shop/shoes${1+found.id}.jpg`} width="100%" />
+
+        <div className={'container start ' + fade2}>
+            <div>
+                {
+                    alert1 == true ? 
+                    <div className="alert alert-warning">
+                        2초 이내 구매 시 할인 
+                    </div> 
+                    : null
+                }
+                
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <img src={`https://codingapple1.github.io/shop/shoes${1+found.id}.jpg`} width="100%" />
+                        </div>
+                        <div className="col-md-6">
+                            <form>
+                                <input type="text" onChange={(e)=>{
+                                    setInputValue(e.target.value);
+                                }}></input>
+                            </form>
+                            <h4 className="pt-5">{found.title}</h4>
+                            <Box>
+                                <p>{found.content}</p>
+                            </Box>
+                            <p>{found.price}원</p>
+                            <button className="btn btn-danger">주문하기</button> 
+                        </div>
                     </div>
-                    <div className="col-md-6">
-                        <form>
-                            <input type="text" onChange={(e)=>{
-                                setInputValue(e.target.value);
-                            }}></input>
-                        </form>
-                        <h4 className="pt-5">{found.title}</h4>
+                    <Nav variant="tabs"  defaultActiveKey="link0">
+                        <Nav.Item>
+                            <Nav.Link onClick={()=>{setTab(0)}} eventKey="link0">버튼0</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link onClick={()=>{setTab(1)}} eventKey="link1">버튼1</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link onClick={()=>{setTab(2)}} eventKey="link2">버튼2</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                    <TabBox tab={tab}/>
+                    <Link to="/">
                         <Box>
-                            <p>{found.content}</p>
+                            <YellowBtn>돌아가기</YellowBtn>
                         </Box>
-                        <p>{found.price}원</p>
-                        <button className="btn btn-danger">주문하기</button> 
-                    </div>
-                </div>
-                <Nav variant="tabs"  defaultActiveKey="link0">
-                    <Nav.Item>
-                        <Nav.Link onClick={()=>{setTab(0)}} eventKey="link0">버튼0</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link onClick={()=>{setTab(1)}} eventKey="link1">버튼1</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link onClick={()=>{setTab(2)}} eventKey="link2">버튼2</Nav.Link>
-                    </Nav.Item>
-                </Nav>
-                <TabBox tab={tab}/>
-                <Link to="/">
-                    <Box>
-                        <YellowBtn>돌아가기</YellowBtn>
-                    </Box>
-                </Link>
-            </div> 
+                    </Link>
+                </div> 
+            </div>
         </div>
+
     )
 }
 
