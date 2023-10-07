@@ -2,12 +2,15 @@
 import { Link, useParams } from "react-router-dom";
 // css
 import styled from 'styled-components'
+import { Nav, Tab } from "react-bootstrap";
 // LifeCycle
 import { useState, useEffect } from "react";
+// Component
+import TabBox from './TabBox.js';
 
     let Box = styled.div`
         padding : 20px;
-        color : grey
+        color : grey;
     `;
     let YellowBtn = styled.button`
         background : yellow;
@@ -29,7 +32,7 @@ import { useState, useEffect } from "react";
         // let [count, setCount] = useState(0);
         let [alert1, setAlert1] = useState(true);
         let [inputValue, setInputValue] = useState('');
-
+        let [tab, setTab] = useState(0);
 
         useEffect(()=>{ 
             let a = setTimeout(()=>{ setAlert1(false) }, 2000)
@@ -56,7 +59,10 @@ import { useState, useEffect } from "react";
         <div>
             {
                 alert1 == true ? 
-                <YellowBox>2초 이내 구매 시 할인</YellowBox> : null
+                <div className="alert alert-warning">
+                    2초 이내 구매 시 할인 
+                </div> 
+                : null
             }
             
             <div className="container">
@@ -78,14 +84,27 @@ import { useState, useEffect } from "react";
                         <button className="btn btn-danger">주문하기</button> 
                     </div>
                 </div>
+                <Nav variant="tabs"  defaultActiveKey="link0">
+                    <Nav.Item>
+                        <Nav.Link onClick={()=>{setTab(0)}} eventKey="link0">버튼0</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={()=>{setTab(1)}} eventKey="link1">버튼1</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={()=>{setTab(2)}} eventKey="link2">버튼2</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+                <TabBox tab={tab}/>
                 <Link to="/">
                     <Box>
                         <YellowBtn>돌아가기</YellowBtn>
                     </Box>
-                </Link>            
+                </Link>
             </div> 
         </div>
     )
 }
+
 
 export default Detail;
