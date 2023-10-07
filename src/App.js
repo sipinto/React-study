@@ -68,7 +68,16 @@ function App() {
                   .catch(()=>{
                     console.log('실패했음 ㅅㄱ')
                   });
-                }}>버튼</button>
+                }}>버튼 1</button>
+                <button onClick={()=>{
+                  axios.get('https://codingapple1.github.io/shop/data3.json')
+                  .then((result)=>{
+                    console.log(result.data);
+                    let copy = [...shoes];
+                    let combi = copy.concat(result.data);
+                    setShoes(combi);
+                  })
+                }}>버튼 2</button>
               </div>
             } />
 
