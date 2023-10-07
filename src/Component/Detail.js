@@ -17,16 +17,32 @@ import { useState, useEffect } from "react";
     `;
     let YellowBox = styled.div`
         padding : 20px;
-        color : yellow;
+        background : yellow;
         display : true;
+        width : 120px;
+
     `;
 
     function Detail(props) {
 
+
+        // let [count, setCount] = useState(0);
+        let [alert1, setAlert1] = useState(true);
+        let [inputValue, setInputValue] = useState('');
+
+
+        useEffect(()=>{ 
+            let a = setTimeout(()=>{ setAlert1(false) }, 2000)
+            return ()=>{
+              clearTimeout(a)
+            }
+          }, [])
+
         useEffect(()=>{
-            setTimeout(()=>{})
-            console.log('안녕');
-        });
+            if(isNaN(inputValue) == true){
+                alert('그러지 마세요 크흠')
+            }
+        }, [inputValue])
 
         let {id} = useParams();
         let found = props.shoes.find(function(x){
@@ -36,15 +52,24 @@ import { useState, useEffect } from "react";
     // 디버깅용
     console.log(id);
     return(
-
+        
         <div>
-            <YellowBox>아하</YellowBox>
+            {
+                alert1 == true ? 
+                <YellowBox>2초 이내 구매 시 할인</YellowBox> : null
+            }
+            
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
                         <img src={`https://codingapple1.github.io/shop/shoes${1+found.id}.jpg`} width="100%" />
                     </div>
                     <div className="col-md-6">
+                        <form>
+                            <input type="text" onChange={(e)=>{
+                                setInputValue(e.target.value);
+                            }}></input>
+                        </form>
                         <h4 className="pt-5">{found.title}</h4>
                         <Box>
                             <p>{found.content}</p>
