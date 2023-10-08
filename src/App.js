@@ -9,13 +9,18 @@ import data from './dummy/Data';
 
 // 컴포넌트
 import Card from './Component/Card';
-import Detail from './Component/Detail';
 import About from './Component/About';
 import Event from './Component/Event';
-import Cart from './Component/Cart';
+
+import {lazy, Suspense, useEffect, useState} from 'react'
+
+const Detail = lazy( () => import('./Component/Detail.js') )
+const Cart = lazy( () => import('./Component/Cart.js') )
+
 
 // etc.
-import { createContext, useEffect, useState } from 'react';
+import { createContext } from 'react';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 // router
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
@@ -44,6 +49,7 @@ function App() {
     axios.get('https://codingapple1.github.io/userdata.json')
     .then((a)=>{ return a.data })
   )
+
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -63,8 +69,9 @@ function App() {
         </Container>
       </Navbar>
 
-      {/* 라우터 */}
-          <Routes>
+      <Suspense fallback={<div>로딩중임</div>}>
+        {/* 라우터 */}
+        <Routes>
             {/* 메인 페이지 */}
             <Route path="/" element={ 
               <div>
@@ -132,7 +139,7 @@ function App() {
             {/* 없는 페이지 */}
             <Route path="*" element={ <div>없는 페이지임</div> } />
           </Routes>
-
+      </Suspense>
     </div>
   );
 }
