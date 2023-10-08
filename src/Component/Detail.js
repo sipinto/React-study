@@ -1,14 +1,13 @@
 // 파라미터 사용
-import { Link, json, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // css
 import styled from 'styled-components'
-import { Nav, Tab } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 // LifeCycle
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 // Component
 import TabBox from './TabBox.js';
 
-import {Context1} from './../App.js';
 import { addItem } from "../store.js";
 import { useDispatch } from "react-redux";
 
@@ -25,16 +24,8 @@ import { useDispatch } from "react-redux";
         color : black;
         padding : 10px;
     `;
-    let YellowBox = styled.div`
-        padding : 20px;
-        background : yellow;
-        display : true;
-        width : 120px;
-
-    `;
 
     function Detail(props) {
-        let {재고, shoes} = useContext(Context1);
 
         let [fade2, setFade2] = useState('')
 
@@ -136,7 +127,6 @@ import { useDispatch } from "react-redux";
                 </div> 
             </div>
         </div>
-
     )
 }
 

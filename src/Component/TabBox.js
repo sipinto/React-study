@@ -1,13 +1,11 @@
 /*eslint-disable*/
 
 // LifeCycle
-import { useState, useEffect, useCallback, useContext } from "react";
-import { Context1 } from "../App";
+import { useState, useEffect, useContext } from "react";
 
 function TabBox({tab}) {
 
     let [fade, setFade] = useState('');
-    let {재고} = useContext(Context1);
     
     useEffect(()=>{
         setTimeout(()=>{ setFade('end') }, 100)

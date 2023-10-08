@@ -20,10 +20,10 @@ const Cart = lazy( () => import('./Component/Cart.js') )
 
 // etc.
 import { createContext } from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 // router
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 // axios
 import axios from 'axios';
@@ -143,6 +143,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
