@@ -9,13 +9,22 @@ import { useSelector, useDispatch } from "react-redux";
 // etc
 import { addCount } from '../store.js';
 import { changeName, increase } from './../store/userSlice.js';
+import { memo ,useState } from 'react';
+
+let Child = memo( function(){
+    console.log('재렌더링 됨');
+    return <div>자식입니다</div>
+})
 
 function Cart(){
     let state = useSelector((state)=> state);
     let dispatch = useDispatch();
+    let [count, setCount] = useState(0)
 
     return(
         <div>
+            <Child/>
+            <button onClick={()=>{setCount(count+1)}}> + </button>
             <h6>{state.user.name} {state.user.age}의 장바구니</h6>
             <button onClick={()=>{dispatch(increase(100))}}>버튼</button>
 
