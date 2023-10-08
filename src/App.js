@@ -40,6 +40,10 @@ function App() {
     localStorage.setItem('watched', JSON.stringify([]))
   },[])
 
+  let result = useQuery(['작명'], ()=>
+    axios.get('https://codingapple1.github.io/userdata.json')
+    .then((a)=>{ return a.data })
+  )
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -50,6 +54,11 @@ function App() {
           <Nav.Link href="/detail">Detail</Nav.Link>
           <Nav.Link href="/about">About</Nav.Link>
           <Nav.Link href="/cart">Cart</Nav.Link>
+        </Nav>
+        <Nav className='ms-auto'>
+          { result.isLoading && '로딩중'  }
+          { result.error && '에러남' }
+          { result.data && result.data.name }
         </Nav>
         </Container>
       </Navbar>
