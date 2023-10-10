@@ -44,7 +44,7 @@ import { useDispatch } from "react-redux";
 
         useEffect(()=>{
             if(isNaN(inputValue) == true){
-                alert('그러지 마세요 크흠')
+                alert('그러지 마세요')
             }
         }, [inputValue])
         

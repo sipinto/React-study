@@ -97,7 +97,7 @@ function App() {
                     setShoes(combi);
                   })
                   .catch(()=>{
-                    console.log('실패했음 ㅅㄱ')
+                    console.log('실패')
                   });
                 }}>버튼 1</button>
                 <button onClick={()=>{
@@ -137,7 +137,7 @@ function App() {
             </Route>
 
             {/* 없는 페이지 */}
-            <Route path="*" element={ <div>없는 페이지임</div> } />
+            <Route path="*" element={ <div>없는 페이지</div> } />
           </Routes>
       </Suspense>
     </div>
