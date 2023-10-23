@@ -419,6 +419,7 @@
         </React.StrictMode>
       ); 
     ```
+
 ### Redux store에 state 보관하는 방법
 - Redux store에서 state 생성
   - createSlice()로 state 1개 생성
@@ -442,6 +443,7 @@
       }
     }) 
   ```
+
 ### Redux store에 있던 state 가져다 쓰는 방법
 - 아무 컴포넌트에서 useSelector((state) => {return state}) 사용
   - store에 있던 모든 state 해당 공간에 남음
@@ -474,13 +476,49 @@
   - useDispatch 라는 것도 라이브러리에서 가져와야함
   - 그리고 dispatch( state변경함수() ) 이렇게 감싸서 실행하면 state 진짜로 변경됨 
 
-
-
-
-
-
-
-
+### Redux - state가 object/array일 경우 변경하는 법
+- redux state가 array/object인 경우 변경하려면
+  - state 변경 함수 예시 ('kim' -> 'park')
+    ```
+      let user = createSlice({
+        name : 'user',
+        initialState : {name : 'kim', age : 20},
+        reducers : {
+          changeName(state){
+            return {name : 'park', age : 20}
+          }
+        }
+      }) 
+    ```
+  - state 직접 변경 예시
+    ```
+      let user = createSlice({
+        name : 'user',
+        initialState : {name : 'kim', age : 20},
+        reducers : {
+          changeName(state){
+            state.name = 'park'
+          }
+        }
+      }) 
+    ```
+- state 변경함수 여러개 필요 시
+  - 파라미터 문법 사용
+    - state 변경함수의 두번째 파라미터를 작명 후 사용가능
+  - 예시
+    ```
+      let user = createSlice({
+        name : 'user',
+        initialState : {name : 'kim', age : 20},
+        reducers : {
+          increase(state, a){
+            state.age += a.payload
+          }
+        }
+      }) 
+    ```
+  - 두번째 파라미터.type -> state 변경함수 이름 출력
+  - 두번째파라미터.payload -> 파라미터 출력
 
 
 ## 리액트에서 동적인 UI 만드는 step 간단 정리
