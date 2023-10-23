@@ -766,6 +766,64 @@
 
   `localStorage.removeItem('데이터이름');`
 
+
+## react-query
+### react-query란?
+- 몇초마다 자동으로 데이터 다시 가져와줌
+- 요청실패시 몇초 간격으로 재시도
+- 다음 페이지 미리 가져와줌
+- Ajax 성공/실패 시 각각 다른 html을 보여줄때 사용
+- 주로 실시간 데이터 보여줘야하는 사이트에서 유용
+
+### react-query 설치 & 세팅 
+- 터미널 설치 명령어
+  
+  `npm install react-query`
+- index.js 세팅
+
+  ```
+    import { QueryClient, QueryClientProvider } from "react-query"  //1번
+    const queryClient = new QueryClient()   //2번
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <QueryClientProvider client={queryClient}>  //3번
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </QueryClientProvider> //3번
+    ); 
+  ```
+- 1,2,3 번 변경해주면 됨.
+
+### react-query로 ajax 요청하는 법
+- useQuery 상단에서 import 후
+- useQuery로 ajax 요청을 감싸면 됨
+  ```
+    function App(){
+      let result = useQuery('작명', ()=>
+        axios.get('https://codingapple1.github.io/userdata.json')
+        .then((a)=>{ return a.data })
+      )
+    }
+  ```
+- 장점 
+  - ajax 요청시 성공/실패/로딩중 상태를 쉽게 파악 가능
+    - result라는 변수에 ajax 현재상태가 자동 저장
+      - ajax 요청 로딩중 -> resulte.isLoading -> true
+      - ajax 요청 실패시 -> result.error -> true
+      - ajax 요청 성공시 -> result.data -> 데이터 들어옴
+  - 수시로 ajax 자동 재요청
+    - 재요청 끄는 법, 재요청 간격 조절하는 방법 존재
+  - 실패시 재시도 자동 실행
+  - ajax로 가져온 결과는 state 공유 필요 x
+
+
+
+
+
 ### localStorage에 array/object 자료를 저장 시
 - 문자만 저장할 수 있는 공간이라 array/object 저장 불가
 - 강제로 저장시 자료 깨져서 저장
