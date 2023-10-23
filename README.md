@@ -677,11 +677,13 @@
   - 조금이라도 html 렌더링이 빠른 사이트 제작 시 유용
   - 쓸데없는 것들은 useEffect에 담으면 됨
   - 오래걸리는 반복연산, 서버에서 데이터가져오는 작업, 타이머 적용 많이 적음
+
 ## useEffect에 넣을 수 있는 실행조건 
 -  useEffect()의 둘째 파라미터로 [ ] 입력 가능
 -  []안에는 변수나 state 입력가능
 -  변수나 state 변할 때마다 useEffect안의 코드 실행
 -  예시
+  
   `useEffect(()->{ 실행할 코드 }, [변수 or state])`
 
 - 아무것도 안넣을 시 컴포넌트 mount 시 1회 실행후 실행 없음.
@@ -746,19 +748,36 @@
   - Ajax 요청 속도보다 HTML 렌더링 속도가 더 빨라서 간혹 발생
   - 이럴 시 if 문으로 조절
 
+## localStorage 문법
+### localStorage란?
+- 유저의 브라우저에 몰래 정보를 저장하는 공강
+- 개발자 도구(F12)에서 Application 탭에서 확인가능
+  - 사이트 마타 5MB 정도의 문자데이터 저장 가능
+  - object 자료랑 비슷하게 key/value 형태로 저장
 
+### localStorage 문법
+- 데이터 추가
 
+  `localStorage.setItem('데이터이름', '데이터');`
+- 데이터 읽기
 
+  `localStorage.getItem('데이터이름');`
+- 데이터 삭제
 
+  `localStorage.removeItem('데이터이름');`
 
+### localStorage에 array/object 자료를 저장 시
+- 문자만 저장할 수 있는 공간이라 array/object 저장 불가
+- 강제로 저장시 자료 깨져서 저장
+- 해결 방법
+  - array/object -> Json 변환해서 저장
+  - 예시
 
-
-
-
-
-
-
-
+    `localStorage.setItem('obj', JSON.stringify({name:'kim'}) );`
+  - JSON.stringify()
+    - 함수 파라미터로 들어온 array/object를 JSON으로 변환시켜 반환시켜줌
+  - JSON에서 다시 array/object로 변환시
+    - JSON.parse(array/object 데이터) 메서드 사용
 
 ## 깃 허브에 배포 시 (프론트엔드만)
 ### 빌드 파일 생성
