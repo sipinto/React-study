@@ -299,7 +299,7 @@
 - 자식 컴포넌트로 state값을 보내려면
 
   `<태그 state명={state값}/>`
-- 자식 컴포넌트에서 받으려면
+- 자식 컴포넌트에서 받으려면 props 사용
 
   ```
     function Card(props){
@@ -315,7 +315,175 @@
 
   `<태그 state={state값[인덱스]}/>`
 
-## 리액트에서 동적인 UI 만드는 step
+## Context API (props 대신 사용가능)
+### Context API - props없이 state 공유 가능
+- Context API 사용 단계
+  - createContext() 함수로 context 1개 생성
+    - context란 state 보관함과 같음
+  - 만든 context로 원하는 곳을 감싸기
+    - 공유를 원하는 state를 value안에 다 입력하면 됨.
+  - 이후 context로 감싼 모든 컴포넌트와 자식 컴포넌트는 
+    - state를 props 전송없이 직접 사용가능
+- 예시
+  ```
+    (App.js)
+
+    export let context1 = React.createContext();
+
+    function App(){
+      let [재고, 재고변경] = useState([10,11,12]);
+
+      return (
+        <Context1.Provider value={ {재고, shoes} }>
+          <Detail shoes={shoes}/>
+        </Context1.Provider>
+        
+      )
+    }
+  ```
+
+### Context 안에 있던 state 사용 시
+- 만들어둔 Context를 import 해오기
+- useContext()안에 삽입
+- 예시
+  ```
+    (Detail.js)
+
+    import {useState, useEffect, useContext} from 'react';
+    import {Context1} from './../App.js';
+
+    function Detail(){
+      let {재고} = useContext(Context1)
+
+      return (
+        <div>{재고}</div>
+      )
+    }
+  ```
+- 컴포넌트에서 Context에 있던 state를 꺼내 쓰려면
+  - Context을 import 하고
+  - context를 해체해주는 함수인 useContext 안에 삽입 해두면 
+  - 그 공간에 공유했던 모든 state가 남으
+  - 변수에 담아서 사용하면 됨
+
+### Context API의 장단점
+- 장점
+  - 중첩해서 사용하는 컴포넌트가 많을 때 편리함
+- 단점
+  - state 변경 시 쓸데없는 컴포넌트까지 전부 재렌더링 됨
+  - useContext()를 쓰고 있는 컴포넌트는 나중에 재사용시 Context를 import 하는게 귀찮음
+    - 위의 이유로 redux 같은 외부 라이브러리 주로 사용
+
+## Redux 
+### Redux 란?
+- props 없이 state를 공유할 수 있게 해주는 라이브러리
+- Redux 설치 시 Js파일 하나에 state들 보관 가능
+  - 해당 state를 모든 컴포넌트가 직접 사용 가능
+  - 컴포넌트가 많아질 수록 사용하기 좋음
+
+### Redux 설치법
+- Redux tookit 설치
+  - 명령어 (터미널)
+
+    `npm install @reduxjs/toolkit react-redux`
+  - 설치 전 확인 사항
+    - react, react-dom 항목 버전이 18.1.x 이상만 사용 가능
+
+### Redux 셋팅
+- state 보관하는 파일 생성
+  - 아무데나 store.js 파일 생성 후 아래 코드 복붙
+  ```
+    import { configureStore } from '@reduxjs/toolkit'
+
+    export default configureStore({
+      reducer: { }
+    }) 
+  ```
+- index.js에서 Provider 라는 Component와 방금 작성한 파일 import 하기
+  - 밑에 <Provider store={import해온것}> 이걸로 <App/> 감싸기
+  - 이제 <App>과 그 모든 자식 컴포넌트들은 store.js에 있던 state를 자유롭게 사용 가능
+  - 예시
+  
+    ```
+      import { Provider } from "react-redux";
+      import store from './store.js'  
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(
+        <React.StrictMode>
+          <Provider store={store}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </Provider>
+        </React.StrictMode>
+      ); 
+    ```
+### Redux store에 state 보관하는 방법
+- Redux store에서 state 생성
+  - createSlice()로 state 1개 생성
+    - createSlice() == useState() 용도 비슷
+  - configureStore() 안에 등록 
+    - configureStore()에 등록한 state는 모든 컴포넌트에서 자유롭게 사용 가능
+  - createSlice()와 configureStore()는 import 해오기
+- 예시
+
+  ```
+    import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+    let user = createSlice({
+      name : 'user',
+      initialState : 'kim'
+    })
+
+    export default configureStore({
+      reducer: {
+        user : user.reducer
+      }
+    }) 
+  ```
+### Redux store에 있던 state 가져다 쓰는 방법
+- 아무 컴포넌트에서 useSelector((state) => {return state}) 사용
+  - store에 있던 모든 state 해당 공간에 남음
+  - 변수에 저장해서 출력 가능
+  - 다른 방법 : let a = useSelector((state) => state.user ) 
+
+### Redux store의 state 변경하는 방법
+- 변경하는 방법
+  - store.js에 state 변경해주는 함수 생성
+    - 예시
+      - 파라미터 하나 작명하면 기존 state가 됨.
+      - return 우측에 새로운 state 입력하면 그걸로 기존 state를 갈아치워줌. 
+      ```
+        let user = createSlice({
+          name : 'user',
+          initialState : 'kim',
+          reducers : {
+            함수작명(state){
+              return 'john ' + state
+            }
+          }
+        }) 
+      ```
+  - 해당 함수 export 처리
+    - 예시
+    
+      `export let { changeName } = user.actions`
+  - 필요 시 import 해서 사용하면 되지만 dispatch()로 감싸서 사용
+  - store.js에서 원하는 state변경함수 가져오면 됨
+  - useDispatch 라는 것도 라이브러리에서 가져와야함
+  - 그리고 dispatch( state변경함수() ) 이렇게 감싸서 실행하면 state 진짜로 변경됨 
+
+
+
+
+
+
+
+
+
+
+## 리액트에서 동적인 UI 만드는 step 간단 정리
 - html css로 미리 UI 디자인을 완성
 - UI의 현재 상태를 state로 저장
 - state에 따라서 UI가 어떻게 보일지 조건문 등으로 작성
